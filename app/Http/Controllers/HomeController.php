@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $Jobs=Job::select()->get();
+        $Jobs=Job::select('id','salary',
+            'name_'.LaravelLocalization::getCurrentLocale().' as name',
+            'description_'.LaravelLocalization::getCurrentLocale().' as description',
+        )->get();
         return view('home',compact('Jobs'));
     }
 }
